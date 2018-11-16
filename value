@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug  6 09:58:37 2018
+
+@author: ashish
+"""
+
+from fredapi import Fred
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from dateutil.relativedelta import relativedelta
+from sklearn.svm import SVR
+from openpyxl import load_workbook
+from xlrd import XLRDError
+from openpyxl.formatting.rule import ColorScaleRule
+
+## Z Score function to get the z-score of a certain amount of data using a column of a df and a window (lookback)
+def zscore(x, window):
+    r = x.rolling(window=window)
+    m = r.mean().shift(1)
+    s = r.std().shift(1)
+    z = (x-m)/s
+    return z
+
+## Std. Dev. function to provide the stdev of a column given a defined lookback period
+def std_rate(x, window):
+    r = x.rolling(window=window)
+    s = r.std().shift(1)
+    return s
+
+## Mean function to provide the mean of a column given a defined lookback period
+def mean_rate(x, window):
+    r = x.rolling(window=window)
+    m = r.mean().shift(1)
+    return m
